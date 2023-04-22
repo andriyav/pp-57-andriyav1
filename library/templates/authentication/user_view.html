@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{books_view.name}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2> Читач {{user.last_name}} {{user.first_name}}</h2>
+                <table class="table">
+                    <tr>
+                        <th>Електронна пошта</th>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <th>Рівень користувача</th>
+                        <td>{{user.get_role_display}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,44 +4,25 @@ import book.models
 
 
 class Author(models.Model):
-    """
-        This class represents an Author. \n
-        Attributes:
-        -----------
-        param name: Describes name of the author
-        type name: str max_length=20
-        param surname: Describes last name of the author
-        type surname: str max_length=20
-        param patronymic: Describes middle name of the author
-        type patronymic: str max_length=20
-    """
+
     name = models.CharField(blank=True, max_length=20)
     surname = models.CharField(blank=True, max_length=20)
-    patronymic = models.CharField(blank=True, max_length=20)
-    books = models.ManyToManyField(book.models.Book, related_name='authors')
+    patronymic = models.CharField(blank=True, max_length=20, null=True)
+    books = models.ManyToManyField(book.models.Book, related_name='authors',)
     id = models.AutoField(primary_key=True)
 
     def __str__(self):
-        """
-        Magic method is redefined to show all information about Author.
-        :return: author id, author name, author surname, author patronymic
-        """
+
         return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
                f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
 
     def __repr__(self):
-        """
-        This magic method is redefined to show class and id of Author object.
-        :return: class, id
-        """
+
         return f"Author(id={self.pk})"
 
     @staticmethod
     def get_by_id(author_id):
-        """
-        :param author_id: SERIAL: the id of a Author to be found in the DB
-        :return: author object or None if a user with such ID does not exist
-        """
+
         # return Author.objects.filter(id=author_id)
         # return Author.get_by_id(author_id)
         # return  Author.get_object_or_404()
@@ -52,11 +33,7 @@ class Author(models.Model):
 
     @staticmethod
     def delete_by_id(author_id):
-        """
-        :param author_id: an id of a author to be deleted
-        :type author_id: int
-        :return: True if object existed in the db and was removed or False if it didn't exist
-        """
+
         try:
             author = Author.objects.get(pk=author_id)
             author.delete()

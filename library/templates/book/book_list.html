@@ -1,0 +1,133 @@
+
+<html>
+        <head>
+            <title>Перелік авторів</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        </head>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info alert-dismissible" role="alert">
+          {{ message }}
+
+        {% endfor %}
+    {% endif %}
+    </div>
+    <title>Створити книгу</title>
+<div class="container">
+            <p>Привіт {{ request.user.first_name }}</p>
+                        {% if user.is_authenticated %}
+
+                <a href="{% url 'logout'  %}" class="btn btn-danger">Вихід</a>
+
+            {%endif%}
+            <a href="{% url 'index'  %}" class="btn btn-info">На головну</a>
+</div>
+
+</head>
+<body>
+
+
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+
+<body>
+
+{% if user.is_superuser %}
+<div class="container">
+    <form action="{% url 'create_book' %}" method="post">
+        {% csrf_token %}
+        <label for="name">Назва</label>
+        <input type="text" name="name" id="name">
+        <label for="description">Опис</label>
+        <input type="text" name="description" id="description">
+        <label for="count">Кількість</label>
+        <input type="number" name="count" id="count">
+        <label for="authors">Автор</label>
+        <select class="form-select" name="authors" id="authors" multiple>
+            {% for author in authors1 %}
+            <option value="{{ author.id }}">{{ author.name }} {{ author.surname }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" class="btn btn-outline-primary" value="Створити ">
+    </form>
+</div>
+{%endif%}
+<br>
+
+<h3 class="display-5 text-center">Перелік Книг</h3>
+
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>ID
+
+    <a href="{% url 'book_list' %}?title=id_n"><span>&#9650;</span></a>
+  <a href="{% url 'book_list' %}?title=id_r"><span>&#9660;</span></a></th>
+</th>
+            <th>Назва книги
+               <a href="{% url 'book_list' %}?title=title_n"><span>&#9650;</span></a>
+  <a href="{% url 'book_list' %}?title=title_r"><span>&#9660;</span></a></th>
+            <th>Опис
+               <a href="{% url 'book_list' %}?title=description_n"><span>&#9650;</span></a>
+  <a href="{% url 'book_list' %}?title=description_r"><span>&#9660;</span></a></th>
+            <th>Автор
+               <a href="{% url 'book_list' %}?title=author_n"><span>&#9650;</span></a>
+  <a href="{% url 'book_list' %}?title=author_r"><span>&#9660;</span></a></th>
+            <th>Кількість
+               <a href="{% url 'book_list' %}?title=count_n"><span>&#9650;</span></a>
+  <a href="{% url 'book_list' %}?title=count_r"><span>&#9660;</span></a></th>
+            <th>Замовити книгу
+            </th>
+            {% if user.is_superuser %}
+            <th>Видалити книгу</th>
+            {%endif%}
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td><a href="{% url 'book_view' %}?book_id={{book.id}}">{{ book.name }}</a></td>
+
+            <td>{{ book.description }}</td>
+            {% for author in book.authors.all %}
+            <td> {{ author.name }} {{ author.surname }}</td>
+            {% endfor %}
+            <td>{{ book.count }}</td>
+
+            <td>
+                {% if user.is_authenticated %}
+                <form action="{% url 'create_order' %}" method="get">
+
+                    <input type="hidden" name="book_id" value="{{book.id}}">
+                    {%else%}
+                    <form action="{% url 'register' %}" method="get">
+
+                        <input type="hidden" name="book_id" value="{{book.id}}">
+                        {%endif%}
+                        <input type="submit" class="btn btn-outline-info" value="Замовити книгу">
+                    </form>
+            </td>
+            {% if user.is_superuser %}
+            <td>
+                <form action="{% url 'book_del'  %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <input type="submit" class="btn btn-outline-danger" value="Видалити">
+                </form>
+            </td>
+            {%endif%}
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+

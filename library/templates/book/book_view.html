@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{books_view.name}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Опис книги "{{books_view.name}}"</h2>
+                <table class="table">
+                    <tr>
+                        <th>Назва</th>
+                        <td>{{books_view.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Автор</th>
+                        <td> {% for author in books_view.authors.all %}
+             {{ author.name }} {{ author.surname }}</td>
+            {% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <th>Опис</th>
+                        <td>{{books_view.description}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
