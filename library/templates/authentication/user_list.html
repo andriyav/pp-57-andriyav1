@@ -1,57 +1,59 @@
 <html>
-    <head>
-        <title>Перелік користувачів</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    </head>
-    <body>
-   <div class="container">
-            <p>Привіт {{ request.user.first_name }}</p>
-                        {% if user.is_authenticated %}
-
-                <a href="{% url 'logout'  %}" class="btn btn-danger">Вихід</a>
-
-            {%endif%}
-            <a href="{% url 'index'  %}" class="btn btn-info">На головну</a>
+<head>
+    <title>Перелік користувачів</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <p>Привіт {{ request.user.first_name }}</p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn btn-danger">Вихід</a>
+    {% endif %}
+    <a href="{% url 'index' %}" class="btn btn-info">На головну</a>
 </div>
-        <h1 class="display-4 text-center">Перелік користувачів</h1>
-        <div class="container">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Ім'я</th>
-                        <th>По батькові</th>
-                        <th>Прізвище</th>
-                        <th>Email</th>
-                        <th>Рівень користувача</th>
-                        <th>Видані книги</th>
-                        <th>Дія</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                    <tr>
-                        <td>{{ user.id }}</td>
-                        <td><a href="{% url 'user_view' %}?user_id={{user.id}}">{{ user.first_name }}</a></td>
-                        <td>{{ user.middle_name }}</td>
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.get_role_display }}</td>
-                                                  <td><form action="{% url 'order_list'  %}" method="post">
- {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user.id }}">
-    <input type="submit" class="btn btn-outline-info" value="Видані книги">
-</form></td>
-                          <td><form action="{% url 'user_del'  %}" method="post">
- {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user.id }}">
-    <input type="submit" class="btn btn-outline-danger" value="Видалити користувача">
-</form></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-    </body>
+<h1 class="display-4 text-center">Перелік користувачів</h1>
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ім'я</th>
+            <th>По батькові</th>
+            <th>Прізвище</th>
+            <th>Email</th>
+            <th>Рівень користувача</th>
+            <th>Видані книги</th>
+            <th>Дія</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><a href="{% url 'user_view' %}?user_id={{ user.id }}">{{ user.first_name }}</a></td>
+                <td>{{ user.middle_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.get_role_display }}</td>
+                <td>
+                    <form action="{% url 'order_list' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input type="submit" class="btn btn-outline-info" value="Видані книги">
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'user_del' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input type="submit" class="btn btn-outline-danger" value="Видалити користувача">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
 </html>

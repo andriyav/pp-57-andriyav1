@@ -1,64 +1,65 @@
 <html>
-  <head>
+<head>
     <title>Бібліотека</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 
-  <body>
-   {% if user.is_authenticated %}
+<body>
+{% if user.is_authenticated %}
 
-                <a href="{% url 'logout'  %}" class="btn btn-danger">Вихід</a>
-            {%endif%}
+    <a href="{% url 'logout' %}" class="btn btn-danger">Вихід</a>
+{% endif %}
 
-    <div class="container mt-5">
+<div class="container mt-5">
 
-      <div class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-3">
-          <a href="book_list" class="btn btn-outline-primary btn-block btn-lg">Перелік книг</a>
-        </div>
-        <div class="col-3">
-             {% if user.is_authenticated %}
-          <a href="order_list" class="btn btn-outline-primary btn-lg btn-block">Ваш кабінет</a>
-            {%else%}
-            <a href="authentication" class="btn btn-outline-primary btn-lg btn-block">Ваш кабінет</a>
-             {%endif%}
-        </div>
-      </div>
-      <div class="row justify-content-center mt-4">
-          {% if user.is_superuser %}
-                  <div class="col-3">
-          <a href="user_list" class="btn btn-outline-primary btn-block btn-lg">Перелік користувачів</a>
+            <a href="book_list" class="btn btn-outline-primary btn-block btn-lg">Перелік книг</a>
         </div>
         <div class="col-3">
-            <a href="author_list" class="btn btn-outline-primary btn-lg btn-block">Створити автора</a>
+            {% if user.is_authenticated %}
+                <a href="order_list" class="btn btn-outline-primary btn-lg btn-block">Ваш кабінет</a>
+            {% else %}
+                <a href="authentication" class="btn btn-outline-primary btn-lg btn-block">Ваш кабінет</a>
+            {% endif %}
         </div>
-   {%endif%}
-            <div class="container mt-5">
-      <div class="row justify-content-center">
- {% if not user.is_authenticated %}
-           <div class="col-3">
-          <a href="{% url 'register'  %}" class="btn btn-primary btn-lg btn-block">Реєстрація</a>
-        </div>
-        <div class="col-3">
-          <a href="login"  class="btn btn-primary btn-lg btn-block">Вхід</a>
-        </div>
-           {%endif%}
-
-
-      </div>
-
-      <div class="row justify-content-center mt-4">
-
-
-      </div>
     </div>
+    <div class="row justify-content-center mt-4">
+        {% if user.is_superuser %}
+            <div class="col-3">
+                <a href="user_list" class="btn btn-outline-primary btn-block btn-lg">Перелік користувачів</a>
+            </div>
+            <div class="col-3">
+                <a href="author_list" class="btn btn-outline-primary btn-lg btn-block">Перелік авторів</a>
+            </div>
+        {% endif %}
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                {% if not user.is_authenticated %}
+                    <div class="col-3">
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg btn-block">Реєстрація</a>
+                    </div>
+                    <div class="col-3">
+                        <a href="login" class="btn btn-primary btn-lg btn-block">Вхід</a>
+                    </div>
+                {% endif %}
+
+
+            </div>
+
+            <div class="row justify-content-center mt-4">
+
+
+            </div>
+        </div>
         <div class="container mt-4">
-           <div class="row justify-content-center">
-               {% if user.is_authenticated %}
-         <h1> Ласкаво просимо, {{ request.user.first_name }}, до бібліотеки</h1>
-               {%endif%}
-          </div>
-          </div>
-  </body>
+            <div class="row justify-content-center">
+                {% if user.is_authenticated %}
+                    <h1> Ласкаво просимо, {{ request.user.first_name }}, до бібліотеки</h1>
+                {% endif %}
+            </div>
+        </div>
+</body>
 </html>

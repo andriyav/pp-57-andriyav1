@@ -1,78 +1,64 @@
-
-
 <html>
-        <head>
-            <title>Перелік авторів</title>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        </head>
-        <body>
+<head>
+    <title>Перелік авторів</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
 
-    {% if messages %}
-        {% for message in messages %}
+{% if messages %}
+    {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-          {{ message }}
+        {{ message }}
 
-        {% endfor %}
-    {% endif %}
-    </div>
+    {% endfor %}
+{% endif %}
+</div>
 <div class="container">
-            <p>Привіт {{ request.user.first_name }}</p>
-                        {% if user.is_authenticated %}
+    <p>Привіт {{ request.user.first_name }}</p>
+    {% if user.is_authenticated %}
 
-                <a href="{% url 'logout'  %}" class="btn btn-danger">Вихід</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Вихід</a>
 
-            {%endif%}
-            <a href="{% url 'index'  %}" class="btn btn-info">На головну</a>
+    {% endif %}
+    <a href="{% url 'index' %}" class="btn btn-info">На головну</a>
+    <a href="{% url 'order_list' %}" class="btn btn-info">Ваш кабінет</a>
+    <a href="{% url 'create_author' %}" class="btn btn-info">Створити автора</a>
 </div>
 <br><br>
-     {% if user.is_superuser %}
-<div class="container">
-<form action="{% url 'create_author'  %}" method="post">
-  {% csrf_token %}
-  <label>Ім'я:</label>
-  <input type="text" name="name" placeholder="Ім'я">
-  <label>По батькові:</label>
-  <input type="text" name="patronymic" placeholder="По батькові">
-    <label>Прізвище:</label>
-  <input type="text" name="surname" placeholder="Прізвище   ">
-  <button type="submit"class="btn btn-outline-primary">Створити автора</button>
-</form>
-</div>
-<div class="logged-user">
-</div>
-            <h1 class="display-4 text-center">Перелік авторів</h1>
+{% if user.is_superuser %}
+    <div class="logged-user">
+    </div>
+    <h1 class="display-4 text-center">Перелік авторів</h1>
+    <div class="container">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Призвище</th>
+                <th>Ім'я</th>
 
-            <div class="container">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Призвище</th>
-                            <th>Ім'я</th>
-
-                            <th>По батькові</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for author in authors %}
-                        <tr>
-                            <td>{{ author.id }}</td>
-                            <td>{{ author.surname }}</td>
-                            <td>{{ author.name }}</td>
-                            <td>{{ author.patronymic }}</td>
-
-                            <form action="{% url 'author_del'  %}" method="post">
-   <td> {% csrf_token %}
-    <input type="hidden" name="author_id" value="{{ author.id }}">
-    <input type="submit" class="btn btn-outline-danger" value="Видалити">
-</form></td>
-
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
-{%endif%}
-        </body>
-    </html>
+                <th>По батькові</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.surname }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>{{ author.patronymic }}</td>
+                    <form action="{% url 'author_del' %}" method="post">
+                        <td> {% csrf_token %}
+                            <input type="hidden" name="author_id" value="{{ author.id }}">
+                            <input type="submit" class="btn btn-outline-danger" value="Видалити">
+                    </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+</body>
+</html>

@@ -1,8 +1,14 @@
 from urllib import request
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from .forms import BookForm
 from .models import Book
 from author.models import Author
+from .forms import BookForm
+
 
 def book_list(request):
     book_list = Book.objects.all()
@@ -36,7 +42,7 @@ def book_list(request):
     else:
         books = Book.get_all()
     authors1 = Author.objects.all()
-    return render(request, 'book/book_list.html', {'books': books, 'authors1':authors1})
+    return render(request, 'book/book_list.html', {'books': books, 'authors1': authors1})
 
 
 def filter_books(request):
@@ -46,28 +52,34 @@ def filter_books(request):
     books = Book.objects.filter(name__contains=title, authors__name__contains=author_name)
     return render(request, 'books.html', {'books': books})
 
+
 def show_books_by_user(user_id):
     books = Book.objects.filter(users__id=user_id)
     return render(request, 'books.html', {'books': books})
 
 
+class DataMixin:
+    pass
+
+
 def create_book(request):
     authors = Author.objects.all()
     if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        count = request.POST.get('count')
+        bookform = BookForm(request.POST)
         authors_id = request.POST.get('authors')
+        if bookform.is_valid():
+            try:
+                book = Book.objects.create(**bookform.cleaned_data)
+                author = Author.objects.get(id=authors_id)
+                book.authors.add(author)
+                book.save()
+                return redirect('book_list')
+            except:
+                bookform.add_error(None, 'Error')
+    else:
+        bookform = BookForm()
+    return render(request, 'book/book_create.html', {'book': bookform, 'authors': authors})
 
-        book = Book.objects.create(name=name, description=description, count=count)
-
-        author = Author.objects.get(id=authors_id)
-
-        book.authors.add(author)
-        book.save()
-        return redirect('book_list')
-    context = {'authors': authors}
-    return render(request, 'book/book_list.html', context)
 
 def book_del(request):
     if request.method == 'POST':
@@ -76,14 +88,13 @@ def book_del(request):
         order.delete()
         return redirect('book_list')
 
+
 def book_view(request):
     authors = Author.objects.all()
     if request.method == 'GET':
-
         book_id = request.GET.get('book_id')
         print(book_id)
         books_view = Book.objects.get(pk=book_id)
-    context = {'books_view': books_view, 'authors': authors }
-    print(context)
-    return render(request, 'book/book_view.html', context)
+    context = {'books_view': books_view, 'authors': authors}
 
+    return render(request, 'book/book_view.html', context)

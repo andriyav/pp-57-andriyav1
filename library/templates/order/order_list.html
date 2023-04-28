@@ -13,16 +13,11 @@
 <div class="container">
     <p>Привіт {{ request.user.first_name }}</p>
     {% if user.is_authenticated %}
-
-    <a href="{% url 'logout'  %}" class="btn btn-danger">Вихід</a>
-
-    {%endif%}
-    <a href="{% url 'index'  %}" class="btn btn-info">На головну</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Вихід</a>
+    {% endif %}
+    <a href="{% url 'index' %}" class="btn btn-info">На головну</a>
 </div>
-
-
 <h2 class="display-5 text-center">Перелік замовлень</h2>
-
 <div class="container">
     <table class="table table-striped table-bordered">
         <thead>
@@ -33,52 +28,48 @@
             <th>Планова дата повернення</th>
             <th>Дата повернення</th>
             <th>Читач</th>
-              {% if user.is_superuser %}
-            <th>Закрити замовлення</th>
+            {% if user.is_superuser %}
+                <th>Закрити замовлення</th>
             {% endif %}
             <th>Скасувати замовлення</th>
-
-
         </tr>
         </thead>
         <tbody>
         {% for order in orders %}
-        <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.book.name }}</td>
-            <td>{{ order.created_at }}</td>
-            <td>{{ order.plated_end_at }}</td>
-            {% if order.end_at != none %}
-            <td>{{ order.end_at }}</td>
-            {% else %}
-            <td>-</td>
-            {% endif %}
-            <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
-            {% for author in book.authors.all %}
-            <td> {{ author.name }} {{ author.surname }}</td>
-            {% endfor %}
-            {% if user.is_superuser %}
-            <td>
-                <form action="{% url 'close_order'  %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                    <input type="submit" class="btn btn-outline-primary" value="Закрити замовлення">
-                </form>
-            </td>
-            {% endif %}
-            <td>
-                <form action="{% url 'order_del'  %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                    <input type="submit" class="btn btn-outline-danger" value="Скасувати замовлення">
-                </form>
-            </td>
-
-        </tr>
-        </tr>
-        </tr>
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.book.name }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.plated_end_at }}</td>
+                {% if order.end_at != none %}
+                    <td>{{ order.end_at }}</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
+                <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                {% for author in book.authors.all %}
+                    <td> {{ author.name }} {{ author.surname }}</td>
+                {% endfor %}
+                {% if user.is_superuser %}
+                    <td>
+                        <form action="{% url 'close_order' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <input type="submit" class="btn btn-outline-primary" value="Закрити замовлення">
+                        </form>
+                    </td>
+                {% endif %}
+                <td>
+                    <form action="{% url 'order_del' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input type="submit" class="btn btn-outline-danger" value="Скасувати замовлення">
+                    </form>
+                </td>
+            </tr>
+            </tr>
+            </tr>
         {% endfor %}
-
         </tbody>
     </table>
 </div>

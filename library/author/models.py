@@ -13,8 +13,10 @@ class Author(models.Model):
 
     def __str__(self):
 
-        return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
-               f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
+        # return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
+        #        f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
+
+        return f"{self.name} {self.surname}"
 
     def __repr__(self):
 

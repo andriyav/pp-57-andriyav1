@@ -10,8 +10,8 @@ class Book(models.Model):
 
     def __str__(self):
 
-        return f"'id': {self.id}, 'name': '{self.name}', 'description': '{self.description}', 'count': {self.count}, 'authors': {[author.id for author in self.authors.all()]}"
-
+        # return f"'id': {self.id}, 'name': '{self.name}', 'description': '{self.description}', 'count': {self.count}, 'authors': {[author.id for author in self.authors.all()]}"
+        return f"{self.name}, {[author.name for author in self.authors.all()][0]} {[author.surname for author in self.authors.all()][0]}"
     def __repr__(self):
 
         return f"Book(id={self.id})"

@@ -1,20 +1,17 @@
 from django.shortcuts import render, redirect
-from author.models import Author
+from django.urls import reverse_lazy
+from .models import Author
 from book.models import Book
 from django.contrib import messages
+from django.views.generic import CreateView
+from .forms import CreateAuthor
 
-def create_author(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        surname = request.POST.get('surname')
-        patronymic = request.POST.get('patronymic')
-        if not patronymic:
-            patronymic = '-'
 
-        author = Author.create(name, surname, patronymic)
-        return redirect('author_list')
-    else:
-        return render(request, 'author/author_list.html')
+class AddAuthor(CreateView):
+    form_class = CreateAuthor
+    template_name = 'author/author_create.html'
+    success_url = reverse_lazy('author_list')
+
 
 def author_list_view(request):
 
@@ -34,3 +31,5 @@ def author_del(request):
         else:
             author.delete()
         return redirect('author_list')
+
+

@@ -18,39 +18,36 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="first_name">Ім'я</label>
-                            <input type="text" name="first_name" class="form-control" value="{{ request.POST.first_name }}" required>
+                            {{ form.first_name }}
                         </div>
                         <div class="form-group">
                             <label for="middle_name">По батькові</label>
-                            <input type="text" name="middle_name" class="form-control" value="{{ request.POST.middle_name }}">
+                            {{ form.middle_name }}
                         </div>
                         <div class="form-group">
                             <label for="last_name">Прізвище</label>
-                            <input type="text" name="last_name" class="form-control" value="{{ request.POST.last_name }}" required>
+                            {{ form.last_name }}
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" name="email" class="form-control" value="{{ request.POST.email }}" required>
+                            {{ form.email }}
                         </div>
                         <div class="form-group">
                             <label for="password">Пароль</label>
-                            <input type="password" name="password" class="form-control" required>
+                            {{ form.password }}
                         </div>
                         <div class="form-group">
                             <label for="role">Рівень користувача</label>
-                            <select name="role" required>
-                                <option value="0">Читач</option>
-                                <option value="1">Бібліотекарь</option>
-                            </select>
+                                {{ form.role}}
                         </div>
                         <p> У випадку реєстрації працівника бібілотеки, Ваші дані будть направлені адмінстратору для подальшої активації Вашого обліового запису.</p>
                         <button type="submit" class="btn btn-primary">Реєстрація</button>
-
                     </form>
                     <p>Вже маєте обліковий запис?</p>
                     <a href="{% url 'login'  %}" class="btn btn-primary">Вхід</a>
                 </div>
             </div>
         </div>
+
     </body>
 </html>
