@@ -5,11 +5,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-info alert-dismissible" role="alert">
+        {{ message }}
+    {% endfor %}
+{% endif %}
+</div>
 
 <body>
 {% if user.is_authenticated %}
 
-    <a href="{% url 'logout' %}" class="btn btn-danger">Вихід</a>
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger">Вихід</a>
 {% endif %}
 
 <div class="container mt-5">
@@ -39,10 +46,10 @@
             <div class="row justify-content-center">
                 {% if not user.is_authenticated %}
                     <div class="col-3">
-                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg btn-block">Реєстрація</a>
+                        <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg btn-block">Реєстрація</a>
                     </div>
                     <div class="col-3">
-                        <a href="login" class="btn btn-primary btn-lg btn-block">Вхід</a>
+                        <a href="login" class="btn btn-outline-primary btn-lg btn-block">Вхід</a>
                     </div>
                 {% endif %}
 

@@ -44,6 +44,7 @@ def user_list_view(request):
 
 def log_out(request):
     logout(request)
+    messages.warning(request, "Ви успішно вийшли із облікового запису")
     return redirect('index')
 
 
@@ -65,3 +66,6 @@ def user_view(request):
         user = CustomUser.objects.get(pk=user_id)
     context = {'user': user}
     return render(request, 'authentication/user_view.html', context)
+
+def log_out1(request):
+    return redirect('index')
